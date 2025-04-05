@@ -427,18 +427,23 @@
                 </div>
             </div>
             <div class="contact-form">
-                <form id="contactForm">
+                <form action="https://formsubmit.co/azmi.adan2032@gmail.com" method="POST">
+                    <!-- Add these hidden inputs for FormSubmit configuration -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://yourportfolio.com/thank-you.html"> <!-- Replace with your actual domain -->
+                    <input type="hidden" name="_template" value="table">
+                    
                     <div class="form-group">
-                        <input type="text" id="name" placeholder="Your Name" required>
+                        <input type="text" name="name" id="name" placeholder="Your Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" placeholder="Your Email" required>
+                        <input type="email" name="email" id="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="subject" placeholder="Subject">
+                        <input type="text" name="_subject" id="subject" placeholder="Subject"> <!-- Note: Using _subject for FormSubmit -->
                     </div>
                     <div class="form-group">
-                        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                        <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
