@@ -426,28 +426,167 @@
                     <a href="mailto:azmi.adan2032@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
-            <div class="contact-form">
-                <form action="https://formsubmit.co/azmi.adan2032@gmail.com" method="POST">
-                    <!-- Add these hidden inputs for FormSubmit configuration -->
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://azmi-adan.github.io/software-dev/"> <!-- Replace with your actual domain -->
-                    <input type="hidden" name="_template" value="table">
-                    
-                    <div class="form-group">
-                        <input type="text" name="name" id="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="_subject" id="subject" placeholder="Subject"> <!-- Note: Using _subject for FormSubmit -->
-                    </div>
-                    <div class="form-group">
-                        <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
+            <div class="tech-explorer" style="
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+          ">
+            <h3 style="
+              font-size: 1.8rem;
+              color: #2563eb;
+              margin-bottom: 1rem;
+              font-weight: 600;
+            ">My Tech Universe</h3>
+            
+            <p style="
+              color: #64748b;
+              font-size: 1.1rem;
+              margin-bottom: 2rem;
+            ">Hover over the tech planets to see my experience level</p>
+            
+            <div class="tech-orbit" style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 1.5rem;
+              padding: 1rem;
+            ">
+              <!-- Linux -->
+              <div class="tech-planet" style="
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(145deg, #f9fafb, #d1d5db);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+              " onmouseover="showTechInfo('Linux', '85%', 'System Administration, Cloud Deployments')">
+                <i class="fab fa-linux" style="font-size: 2.5rem; color: #333;"></i>
+              </div>
+              
+              <!-- Python -->
+              <div class="tech-planet" style="
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(145deg, #f0f9ff, #bae6fd);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+              " onmouseover="showTechInfo('Python', '80%', 'Flask, Automation, Data Processing')">
+                <i class="fab fa-python" style="font-size: 2.5rem; color: #3b82f6;"></i>
+              </div>
+              
+              <!-- React -->
+              <div class="tech-planet" style="
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(145deg, #f0fdf4, #bbf7d0);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+              " onmouseover="showTechInfo('React', '75%', 'Frontend Development, UI Components')">
+                <i class="fab fa-react" style="font-size: 2.5rem; color: #10b981;"></i>
+              </div>
+              
+              <!-- Cloud -->
+              <div class="tech-planet" style="
+                width: 80px;
+                height: 80px;
+                background: linear-gradient(145deg, #eff6ff, #bfdbfe);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+                cursor: pointer;
+              " onmouseover="showTechInfo('Cloud', '70%', 'Infrastructure, Deployment, Support')">
+                <i class="fas fa-cloud" style="font-size: 2.5rem; color: #2563eb;"></i>
+              </div>
             </div>
+            
+            <div id="tech-info" style="
+              margin-top: 2rem;
+              padding: 1.5rem;
+              background: white;
+              border-radius: 12px;
+              box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+              min-height: 120px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              transition: all 0.3s ease;
+            ">
+              <h4 style="font-size: 1.3rem; color: #1e293b; margin-bottom: 0.5rem;">Hover Over a Technology</h4>
+              <p style="color: #64748b; margin-bottom: 0.5rem;">See my experience level and skills</p>
+              <div class="skill-bar" style="
+                height: 8px;
+                background: #e2e8f0;
+                border-radius: 4px;
+                margin: 1rem 0;
+                overflow: hidden;
+              ">
+                <div id="skill-level" style="
+                  height: 100%;
+                  width: 0%;
+                  background: linear-gradient(90deg, #2563eb, #3b82f6);
+                  border-radius: 4px;
+                  transition: width 0.5s ease;
+                "></div>
+              </div>
+              <p id="skill-desc" style="color: #475569; font-size: 0.95rem;"></p>
+            </div>
+          </div>
+          
+          <script>
+          function showTechInfo(techName, level, description) {
+            document.getElementById('tech-info').innerHTML = `
+              <h4 style="font-size: 1.3rem; color: #1e293b; margin-bottom: 0.5rem;">${techName}</h4>
+              <p style="color: #64748b; margin-bottom: 0.5rem;">${level} proficiency</p>
+              <div class="skill-bar" style="
+                height: 8px;
+                background: #e2e8f0;
+                border-radius: 4px;
+                margin: 1rem 0;
+                overflow: hidden;
+              ">
+                <div id="skill-level" style="
+                  height: 100%;
+                  width: ${level};
+                  background: linear-gradient(90deg, #2563eb, #3b82f6);
+                  border-radius: 4px;
+                  transition: width 0.5s ease;
+                "></div>
+              </div>
+              <p style="color: #475569; font-size: 0.95rem;">${description}</p>
+            `;
+            
+            // Add pulse animation to the hovered planet
+            event.currentTarget.style.transform = 'scale(1.1)';
+            event.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            setTimeout(() => {
+              event.currentTarget.style.transform = 'scale(1)';
+              event.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            }, 300);
+          }
+          </script>
         </div>
     </section>
 
