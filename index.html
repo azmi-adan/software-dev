@@ -374,6 +374,52 @@
     transform: scale(1.03);
   }
 </style>
+<style>
+@media (max-width: 900px) {
+  .about-content {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .about-content > div {
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .about-content img {
+    max-width: 220px !important;
+    height: auto !important;
+  }
+
+  /* Fix heading + text sizes */
+  .about-text h3 {
+    font-size: 1.5rem !important;
+  }
+  .about-text p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Stack info items in 1 column */
+  .about-info {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    text-align: left !important; /* optional: keep left align for labels */
+  }
+
+  /* Social links center on mobile */
+  .social-links {
+    justify-content: center !important;
+  }
+
+  /* QR code shrink */
+  .qr-container {
+    width: 220px !important;
+    height: 220px !important;
+  }
+}
+</style>
 
 <script>
   // Add hover effects
