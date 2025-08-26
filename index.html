@@ -10,6 +10,218 @@
     <link rel="icon" href="https://i.pinimg.com/280x280_RS/d0/73/31/d07331a2088866d206acee57015e9d0d.jpg">
 </head>
 <body>
+  <!-- Futuristic Splash Screen -->
+<div id="splash-screen">
+    <div class="cyber-grid"></div>
+    <div class="particles"></div>
+    
+    <div class="splash-content">
+        <div class="splash-logo">
+            <div class="hexagon"></div>
+            <div class="hexagon-inner">
+                <span>A</span>
+            </div>
+        </div>
+        
+        <div class="splash-text">
+            <h1>AZMI ADAN</h1>
+            <p>Full-Stack Developer & Cloud Engineer</p>
+        </div>
+        
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Splash Screen Styles */
+    #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0a0e23 0%, #1a2138 50%, #0c1120 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.8s ease-out;
+    }
+    
+    .splash-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .splash-logo {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 40px;
+    }
+    
+    .hexagon {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #3a86ff 0%, #4cc9f0 100%);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        animation: pulse 2s infinite alternate;
+    }
+    
+    .hexagon-inner {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        background: #0a0e23;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .hexagon-inner span {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #3a86ff 0%, #4cc9f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 10px rgba(58, 134, 255, 0.5));
+    }
+    
+    .splash-text {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .splash-text h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #e2f1fd 0%, #8b9dc7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+    }
+    
+    .splash-text p {
+        color: #8b9dc7;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    
+    .loading-bar {
+        width: 280px;
+        height: 4px;
+        background: rgba(139, 157, 199, 0.2);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .loading-progress {
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #3a86ff, #4cc9f0);
+        border-radius: 4px;
+        transition: width 1.5s ease-in-out;
+    }
+    
+    .cyber-grid {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: 
+            linear-gradient(rgba(58, 134, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(58, 134, 255, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+        pointer-events: none;
+        opacity: 0.3;
+        animation: grid-move 20s linear infinite;
+    }
+    
+    .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    
+    .particles::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, #4cc9f0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 40px 70px, #3a86ff, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 60px 120px, #4cc9f0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 80px 180px, #3a86ff, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 100px 220px, #4cc9f0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 120px 280px, #3a86ff, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 140px 340px, #4cc9f0, rgba(0,0,0,0)),
+            radial-gradient(2px 2px at 160px 400px, #3a86ff, rgba(0,0,0,0));
+        background-repeat: repeat;
+        background-size: 200px 200px;
+        animation: particles-move 20s linear infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.8; }
+        100% { transform: scale(1.05); opacity: 1; }
+    }
+    
+    @keyframes grid-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 30px 30px; }
+    }
+    
+    @keyframes particles-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 200px 200px; }
+    }
+</style>
+
+<script>
+    // Add this script to handle the splash screen animation and removal
+    document.addEventListener('DOMContentLoaded', function() {
+        const splashScreen = document.getElementById('splash-screen');
+        const loadingProgress = document.querySelector('.loading-progress');
+        
+        // Simulate loading progress
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                
+                // Complete loading and fade out
+                setTimeout(() => {
+                    splashScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        splashScreen.style.display = 'none';
+                    }, 800);
+                }, 500);
+            }
+            loadingProgress.style.width = progress + '%';
+        }, 300);
+    });
+</script>
     <!-- Revolutionary Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
