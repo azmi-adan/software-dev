@@ -1,1451 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azmi Adan | Full-Stack Developer & Cloud Engineer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="./pfp.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azmi Adan — Developer & Cloud Engineer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="./pfp.png" type="image/png" />
 </head>
 <body>
-  <!-- Futuristic Splash Screen -->
-<div id="splash-screen">
-    <div class="cyber-grid"></div>
-    <div class="particles"></div>
-    
+
+  <!-- CURSOR -->
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+
+  <!-- AMBIENT CANVAS -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- ═══════════════ SPLASH ═══════════════ -->
+  <div id="splash">
+    <canvas id="splash-canvas"></canvas>
     <div class="splash-content">
-        <div class="splash-logo">
-            <div class="hexagon"></div>
-            <div class="hexagon-inner">
-                <span>A</span>
-            </div>
-        </div>
-        
-        <div class="splash-text">
-            <h1>AZMI ADAN</h1>
-            <p>Full-Stack Developer & Cloud Engineer</p>
-        </div>
-        
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-    </div>
-</div>
+      <div class="splash-hex-ring">
+        <svg class="splash-hex-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="hex-outer" points="100,6 190,55 190,145 100,194 10,145 10,55" stroke="url(#sg1)" stroke-width="1" fill="none"/>
+          <polygon class="hex-mid"   points="100,22 174,65 174,135 100,178 26,135 26,65"  stroke="url(#sg2)" stroke-width="0.5" fill="none" opacity="0.5"/>
+          <polygon class="hex-inner" points="100,38 158,75 158,125 100,162 42,125 42,75"  stroke="url(#sg3)" stroke-width="0.5" fill="none" opacity="0.25"/>
+          <circle cx="100" cy="100" r="42" stroke="url(#sg4)" stroke-width="0.5" fill="none" opacity="0.4"/>
+          <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle"
+                font-family="Cormorant Garamond" font-size="72" font-weight="600"
+                fill="url(#stg)">A</text>
+          <defs>
+            <linearGradient id="sg1" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b084f0"/>
+              <stop offset="50%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#d4af37"/>
+            </linearGradient>
+            <linearGradient id="sg2" x1="200" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#d4af37"/>
+              <stop offset="100%" stop-color="#b084f0"/>
+            </linearGradient>
+            <linearGradient id="sg3" x1="0" y1="200" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#f0d060"/>
+            </linearGradient>
+            <linearGradient id="sg4" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#9b6fe0"/>
+              <stop offset="100%" stop-color="#d4af37"/>
+            </linearGradient>
+            <linearGradient id="stg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e8d8ff"/>
+              <stop offset="50%" stop-color="#c4a3f7"/>
+              <stop offset="100%" stop-color="#d4af37"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <!-- Orbiting dots -->
+        <div class="orbit-ring or1"><div class="orbit-dot"></div></div>
+        <div class="orbit-ring or2"><div class="orbit-dot od2"></div></div>
+        <div class="orbit-ring or3"><div class="orbit-dot od3"></div></div>
+      </div>
 
-<style>
-    /* Splash Screen Styles */
-    #splash-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #0a0e23 0%, #1a2138 50%, #0c1120 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        z-index: 9999;
-        opacity: 1;
-        transition: opacity 0.8s ease-out;
-    }
-    
-    .splash-content {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .splash-logo {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        margin-bottom: 40px;
-    }
-    
-    .hexagon {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #3a86ff 0%, #4cc9f0 100%);
-        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-        animation: pulse 2s infinite alternate;
-    }
-    
-    .hexagon-inner {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: calc(100% - 20px);
-        height: calc(100% - 20px);
-        background: #0a0e23;
-        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .hexagon-inner span {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #3a86ff 0%, #4cc9f0 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 10px rgba(58, 134, 255, 0.5));
-    }
-    
-    .splash-text {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-    
-    .splash-text h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #e2f1fd 0%, #8b9dc7 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 10px;
-        letter-spacing: 2px;
-    }
-    
-    .splash-text p {
-        color: #8b9dc7;
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-    }
-    
-    .loading-bar {
-        width: 280px;
-        height: 4px;
-        background: rgba(139, 157, 199, 0.2);
-        border-radius: 4px;
-        overflow: hidden;
-        position: relative;
-    }
-    
-    .loading-progress {
-        position: absolute;
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #3a86ff, #4cc9f0);
-        border-radius: 4px;
-        transition: width 1.5s ease-in-out;
-    }
-    
-    .cyber-grid {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background-image: 
-            linear-gradient(rgba(58, 134, 255, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(58, 134, 255, 0.1) 1px, transparent 1px);
-        background-size: 30px 30px;
-        pointer-events: none;
-        opacity: 0.3;
-        animation: grid-move 20s linear infinite;
-    }
-    
-    .particles {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-    }
-    
-    .particles::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: 
-            radial-gradient(2px 2px at 20px 30px, #4cc9f0, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 40px 70px, #3a86ff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 60px 120px, #4cc9f0, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 80px 180px, #3a86ff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 100px 220px, #4cc9f0, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 120px 280px, #3a86ff, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 140px 340px, #4cc9f0, rgba(0,0,0,0)),
-            radial-gradient(2px 2px at 160px 400px, #3a86ff, rgba(0,0,0,0));
-        background-repeat: repeat;
-        background-size: 200px 200px;
-        animation: particles-move 20s linear infinite;
-    }
-    
-    @keyframes pulse {
-        0% { transform: scale(1); opacity: 0.8; }
-        100% { transform: scale(1.05); opacity: 1; }
-    }
-    
-    @keyframes grid-move {
-        0% { background-position: 0 0; }
-        100% { background-position: 30px 30px; }
-    }
-    
-    @keyframes particles-move {
-        0% { background-position: 0 0; }
-        100% { background-position: 200px 200px; }
-    }
-</style>
+      <div class="splash-text-block">
+        <div class="splash-greeting">WELCOME TO THE PORTFOLIO OF</div>
+        <h1 class="splash-name">
+          <span class="sn-a">A</span><span class="sn-z">Z</span><span class="sn-m">M</span><span class="sn-i">I</span>
+          <span class="sn-space"> </span>
+          <span class="sn-a2">A</span><span class="sn-d">D</span><span class="sn-an">A</span><span class="sn-n">N</span>
+        </h1>
+        <div class="splash-divider">
+          <span class="sd-line"></span>
+          <span class="sd-diamond">◆</span>
+          <span class="sd-line"></span>
+        </div>
+        <p class="splash-role-txt">Full-Stack Developer &amp; Cloud Engineer</p>
+      </div>
 
-<script>
-    // Add this script to handle the splash screen animation and removal
-    document.addEventListener('DOMContentLoaded', function() {
-        const splashScreen = document.getElementById('splash-screen');
-        const loadingProgress = document.querySelector('.loading-progress');
-        
-        // Simulate loading progress
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                
-                // Complete loading and fade out
-                setTimeout(() => {
-                    splashScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        splashScreen.style.display = 'none';
-                    }, 800);
-                }, 500);
-            }
-            loadingProgress.style.width = progress + '%';
-        }, 300);
-    });
-</script>
-    <!-- Revolutionary Navbar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="#" class="logo">
-                <span>A</span>zmi <span>A</span>dan
-            </a>
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
-                <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
-                <li class="nav-item"><a href="#experience" class="nav-link">Experience</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
+      <div class="splash-loader">
+        <div class="sl-track">
+          <div class="sl-fill" id="splash-fill"></div>
+          <div class="sl-glow" id="splash-glow"></div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h4 class="greeting">Hello, I'm</h4>
-                <h1 class="name">Azmi Adan</h1>
-                <h2 class="title">Full-Stack Developer & Cloud Engineer</h2>
-                <p class="summary">Engineering the web with precision—built for speed, armored for threats, designed to leave no trace.</p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View My Work</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="image-container">
-                    <img src="./pfp.png" alt="Azmi Adan" class="profile-img">
-                    <div class="tech-icons">
-                        <i class="fab fa-linux"></i>
-                        <i class="fab fa-python"></i>
-                        <i class="fab fa-js"></i>
-                        <i class="fab fa-react"></i>
-                        <i class="fab fa-git-alt"></i>
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-down">
-            <a href="#about"><i class="fas fa-chevron-down"></i></a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-<section id="about" class="section about" style="
-  background: linear-gradient(to bottom, #0a0e23 0%, #11182b 100%);
-  padding: 100px 0;
-  position: relative;
-  overflow: hidden;
-">
-  <div class="section-header" style="
-    text-align: center;
-    margin-bottom: 60px;
-  ">
-    <h2 style="
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      color: #e2f1fd;
-      font-weight: 700;
-      letter-spacing: 1px;
-    ">About <span style="color: #3a86ff;">Me</span></h2>
-    <div class="header-line" style="
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(90deg, #3a86ff, #4cc9f0);
-      margin: 0 auto;
-      border-radius: 2px;
-      box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
-    "></div>
-  </div>
-  
-  <div class="about-content" style="
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 30px;
-    flex-wrap: wrap;
-    gap: 40px;
-  ">
-    <!-- Text Content -->
-    <div class="about-text" style="
-      flex: 1;
-      min-width: 300px;
-      position: relative;
-      z-index: 2;
-    ">
-      <h3 style="
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-        color: #e2f1fd;
-        position: relative;
-        display: inline-block;
-      ">
-        Who am I?
-        <span style="
-          position: absolute;
-          bottom: -10px;
-          left: 0;
-          width: 50px;
-          height: 3px;
-          background: linear-gradient(90deg, #3a86ff, #4cc9f0);
-          border-radius: 3px;
-        "></span>
-      </h3>
-      
-      <p style="
-        color: #8b9dc7;
-        margin-bottom: 20px;
-        line-height: 1.7;
-        font-size: 1.1rem;
-      ">Focused on building streamlined, scalable solutions where precision meets performance. A mix of front-end finesse and back-end structure with an emphasis on securing every layer.</p>
-      
-      <p style="
-        color: #8b9dc7;
-        margin-bottom: 30px;
-        line-height: 1.7;
-        font-size: 1.1rem;
-      ">Currently refining skills in cloud infrastructure and operations, navigating the intersection of innovation and reliability in dynamic environments.</p>
-
-      <div class="about-info" style="
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        margin: 40px 0;
-      ">
-        <div class="info-item" style="display: flex; gap: 10px;">
-          <span style="
-            font-weight: 600;
-            color: #e2f1fd;
-            min-width: 70px;
-          ">Name:</span>
-          <p style="color: #8b9dc7; margin: 0;">Azmi Adan</p>
-        </div>
-        <div class="info-item" style="display: flex; gap: 10px;">
-          <span style="
-            font-weight: 600;
-            color: #e2f1fd;
-            min-width: 70px;
-          ">Email:</span>
-          <p style="color: #8b9dc7; margin: 0;">azmi.adan2032@gmail.com</p>
-        </div>
-        <div class="info-item" style="display: flex; gap: 10px;">
-          <span style="
-            font-weight: 600;
-            color: #e2f1fd;
-            min-width: 70px;
-          ">From:</span>
-          <p style="color: #8b9dc7; margin: 0;">Nairobi, Kenya</p>
+        <div class="sl-labels">
+          <span class="sl-status" id="splash-status">Initializing systems…</span>
+          <span class="sl-pct" id="splash-pct">0%</span>
         </div>
       </div>
-      
-      <div class="social-links" style="
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-      ">
-        <a href="https://www.linkedin.com/in/azmi-adan-harar-47042332b/" target="_blank" style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: rgba(58, 134, 255, 0.1);
-          color: #3a86ff;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(58, 134, 255, 0.3);
-        " onmouseover="this.style.background='#3a86ff'; this.style.color='#0a0e23'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 15px rgba(58, 134, 255, 0.4)'" 
-        onmouseout="this.style.background='rgba(58, 134, 255, 0.1)'; this.style.color='#3a86ff'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a href="https://github.com/azmi-adan" target="_blank" style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: rgba(58, 134, 255, 0.1);
-          color: #3a86ff;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(58, 134, 255, 0.3);
-        " onmouseover="this.style.background='#3a86ff'; this.style.color='#0a0e23'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 15px rgba(58, 134, 255, 0.4)'" 
-        onmouseout="this.style.background='rgba(58, 134, 255, 0.1)'; this.style.color='#3a86ff'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="mailto:azmi.adan2032@gmail.com" style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: rgba(58, 134, 255, 0.1);
-          color: #3a86ff;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(58, 134, 255, 0.3);
-        " onmouseover="this.style.background='#3a86ff'; this.style.color='#0a0e23'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 5px 15px rgba(58, 134, 255, 0.4)'" 
-        onmouseout="this.style.background='rgba(58, 134, 255, 0.1)'; this.style.color='#3a86ff'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          <i class="fas fa-envelope"></i>
-        </a>
+
+      <div class="splash-tags">
+        <span class="stag">React</span>
+        <span class="stag">Python</span>
+        <span class="stag">Cloud</span>
+        <span class="stag">Security</span>
+        <span class="stag">Flutter</span>
       </div>
     </div>
-    
-    <!-- QR Code Container -->
-    <div class="about-image" style="
-      flex: 0 0 auto;
-      position: relative;
-      z-index: 2;
-      margin-left: 30px;
-    ">
-      <div class="qr-container" style="
-        position: relative;
-        width: 280px;
-        height: 280px;
-        background: linear-gradient(135deg, #0a0e23 0%, #1a2138 100%);
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 10px 25px rgba(58, 134, 255, 0.3);
-        border: 1px solid rgba(58, 134, 255, 0.2);
-        overflow: visible;
-        transition: all 0.4s ease;
-      ">
-        <!-- QR Code Image -->
-        <img src="./pfp.png" 
-             alt="Scan to view CV" 
-             style="
-               width: 100%;
-               height: 100%;
-               object-fit: cover;
-               border-radius: 10px;
-               transition: transform 0.3s ease;
-               cursor: pointer;
-             "
-             onclick="window.open('Azmi Adan final cv_1.pdf', '_blank')">
-        
-        <!-- Animated Border Effect -->
-        <div class="qr-border" style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border: 2px solid transparent;
-          border-radius: 18px;
-          background: linear-gradient(135deg, #3a86ff, #4cc9f0) border-box;
-          -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-          pointer-events: none;
-        "></div>
-        
-        <!-- Scan Animation -->
-        <div class="scan-line" style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 10px;
-          background: linear-gradient(to bottom, 
-            rgba(76, 201, 240, 0), 
-            rgba(76, 201, 240, 0.8),
-            rgba(76, 201, 240, 0));
-          animation: scan 3s linear infinite;
-          opacity: 0.7;
-          border-radius: 10px;
-        "></div>
-        
-        <!-- Hover Effect -->
-        <div class="qr-hover" style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle at center, 
-            rgba(58, 134, 255, 0.3) 0%, 
-            transparent 70%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
-        "></div>
-        
-        <!-- Tooltip -->
-        <div class="qr-tooltip" style="
-          position: absolute;
-          bottom: -55px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: #0a0e23;
-          color: #f5f5f5;
-          padding: 10px 22px;
-          border-radius: 30px;
-          font-size: 14px;
-          font-weight: 600;
-          white-space: nowrap;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-          border: 1px solid rgba(76, 201, 240, 0.6);
-          opacity: 1;
-          transition: 0.3s;
-          z-index: 10;
-          cursor: pointer;
-          text-align: center;
-          width: max-content;
-          max-width: 100%;
-        " 
-        onclick="window.open('Azmi Adan final cv_1.pdf', '_blank')"
-        onmouseover="this.style.background='#111a3a'; this.style.boxShadow='0 6px 25px rgba(76, 201, 240, 0.8)'"
-        onmouseout="this.style.background='#0a0e23'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.6)'">
-          <i class="fas fa-external-link-alt" style="margin-right: 8px; color: #4cc9f0;"></i> 
-          Click to View Full CV
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Cosmic Background Elements -->
-  <div style="
-    position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(58, 134, 255, 0.15) 0%, transparent 70%);
-    z-index: 1;
-  "></div>
-  <div style="
-    position: absolute;
-    bottom: -50px;
-    left: -50px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(76, 201, 240, 0.1) 0%, transparent 70%);
-    z-index: 1;
-  "></div>
-</section>
 
-<style>
-  @keyframes scan {
-    0% { top: 0; opacity: 0; }
-    10% { opacity: 0.7; }
-    90% { opacity: 0.7; }
-    100% { top: 100%; opacity: 0; }
-  }
-  
-  .qr-container:hover img {
-    transform: scale(1.03);
-  }
-</style>
-<style>
-@media (max-width: 900px) {
-  .about-content {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  .about-content > div {
-    flex: 1 1 100% !important;
-    margin-left: 0 !important;
-  }
-
-  .about-content img {
-    max-width: 220px !important;
-    height: auto !important;
-  }
-
-  /* Fix heading + text sizes */
-  .about-text h3 {
-    font-size: 1.5rem !important;
-  }
-  .about-text p {
-    font-size: 1rem !important;
-    line-height: 1.6 !important;
-  }
-
-  /* Stack info items in 1 column */
-  .about-info {
-    grid-template-columns: 1fr !important;
-    gap: 15px !important;
-    text-align: left !important; /* optional: keep left align for labels */
-  }
-
-  /* Social links center on mobile */
-  .social-links {
-    justify-content: center !important;
-  }
-
-  /* QR code shrink */
-  .qr-container {
-    width: 220px !important;
-    height: 220px !important;
-  }
-}
-</style>
-
-<script>
-  // Add hover effects
-  const qrContainer = document.querySelector('.qr-container');
-  const qrHover = document.querySelector('.qr-hover');
-  
-  qrContainer.addEventListener('mouseenter', () => {
-    qrHover.style.opacity = '1';
-    qrContainer.style.transform = 'translateY(-5px)';
-    qrContainer.style.boxShadow = '0 15px 35px rgba(58, 134, 255, 0.4)';
-  });
-  
-  qrContainer.addEventListener('mouseleave', () => {
-    qrHover.style.opacity = '0';
-    qrContainer.style.transform = 'translateY(0)';
-    qrContainer.style.boxShadow = '0 10px 25px rgba(58, 134, 255, 0.3)';
-  });
-</script>
-    <!-- Skills Section -->
-<section id="skills" class="section skills">
-  <div class="section-header">
-    <h2>My <span>Skills</span></h2>
-    <div class="header-line"></div>
+    <!-- Glitch scanlines overlay -->
+    <div class="splash-scanlines"></div>
+    <div class="splash-vignette"></div>
   </div>
 
-  <div class="skills-container">
-
-    <!-- Programming Languages -->
-    <div class="skills-category">
-      <h3><i class="fas fa-code"></i> Programming Languages</h3>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>JavaScript</span>
-          <span>85%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress js"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Python</span>
-          <span>80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress python"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Dart</span>
-          <span>70%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress dart"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>HTML / CSS</span>
-          <span>90%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress html"></div></div>
-      </div>
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <span>A</span>zmi <span>A</span>dan
+      </a>
+      <button class="burger" id="burger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home"       class="nav-link">Home</a></li>
+        <li><a href="#about"      class="nav-link">About</a></li>
+        <li><a href="#skills"     class="nav-link">Skills</a></li>
+        <li><a href="#projects"   class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact"    class="nav-link">Contact</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <!-- Frameworks & Libraries -->
-    <div class="skills-category">
-      <h3><i class="fas fa-layer-group"></i> Frameworks & Libraries</h3>
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="home" class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+    <div class="hero-grid"></div>
 
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>React.js</span>
-          <span>80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress react"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Flutter</span>
-          <span>75%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress flutter"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Flask</span>
-          <span>75%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress flask"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Tailwind CSS</span>
-          <span>85%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress tailwind"></div></div>
-      </div>
-    </div>
-
-    <!-- Databases, Charts & Tools -->
-    <div class="skills-category">
-      <h3><i class="fas fa-database"></i> Databases, Charts & Tools</h3>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>PostgreSQL</span>
-          <span>75%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress postgres"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>MySQL</span>
-          <span>70%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress mysql"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Charts & Data Visualization</span>
-          <span>80%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress charts"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Git / GitHub</span>
-          <span>85%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress git"></div></div>
-      </div>
-
-      <div class="skill-item">
-        <div class="skill-info">
-          <span>Linux Administration</span>
-          <span>75%</span>
-        </div>
-        <div class="skill-bar"><div class="skill-progress linux"></div></div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="section projects">
-        <div class="section-header">
-            <h2>My <span>Projects</span></h2>
-            <div class="header-line"></div>
-        </div>
-        <div class="projects-container">
-            <div class="project-card">
-    <div class="project-image">
-        <img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" alt="Age Calculator">
-    </div>
-    <div class="project-content">
-        <h3>Age Calculator</h3>
-        <p>A responsive age calculator that determines your exact age in years, months, and days based on your date of birth. Clean design and interactive UX built with vanilla technologies.</p>
-        <div class="project-tech">
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>JavaScript</span>
-        </div>
-        <div class="project-links">
-            <a href="https://azmi-adan.github.io/CodeAlpha_AgeCalculator/#" target="_blank">
-                <i class="fas fa-external-link-alt"></i> Live Demo
-            </a>
-        </div>
-    </div>
-</div>
-
-            <div class="project-card">
-    <div class="project-image">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Smart Stats Analytics">
-    </div>
-    <div class="project-content">
-        <h3>Smart Stats</h3>
-        <p>An intelligent analytics platform that transforms raw data into actionable insights. Features AI-powered chart recommendations, interactive dashboards, real-time data visualization, and comprehensive analytics tools for data-driven decision making.</p>
-        <div class="project-tech">
-            <span>React</span>
-            <span>Node.js</span>
-            <span>Chart.js</span>
-            <span>Python</span>
-            <span>AI/ML</span>
-        </div>
-        <div class="project-links">
-            <a href="https://smart-stats.netlify.app/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-        </div>
-    </div>
-</div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Crypto Chain">
-                </div>
-                <div class="project-content">
-                    <h3>Crypto Chain</h3>
-                    <p>A blockchain simulation that mimics cryptocurrency functionality including creating transactions, mining blocks, and validating the chain. This mock application demonstrates core blockchain concepts in a simplified manner.</p>
-                    <div class="project-tech">
-                        <span>JavaScript</span>
-                        <span>flask</span>
-                        <span>Blockchain</span>
-                        <span>Cryptography</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://crypto-coin-2c0k.onrender.com" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        
-                    </div>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="https://i.pinimg.com/474x/50/1d/6a/501d6a98ba8f9750288881dfe4d03eea.jpg" alt="Automated Email Sender">
-                </div>
-                <div class="project-content">
-    <h3>Automated Email Sender</h3>
-    <p>A web-based email automation tool for sending emails efficiently with Flask backend processing and Flask-Mail integration for email handling.</p>
-    <div class="project-tech">
-        <span>Flask</span>
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-    </div>
-    <div class="project-warning">
-        <p style="color: red; font-style: italic; font-size: 0.9em;">
-            ⚠️ Live demo temporarily unavailable due to Render blocking SMTP traffic.  
-            We're actively working on a fix — check back soon!
+    <div class="hero-inner container">
+      <div class="hero-text">
+        <span class="hero-eyebrow reveal-up" style="--d:0s">Hello, I'm</span>
+        <h1 class="hero-name reveal-up" style="--d:.15s">
+          Azmi<br/><em>Adan</em>
+        </h1>
+        <h2 class="hero-role reveal-up" style="--d:.3s">
+          <span id="tw-text"></span><span class="tw-cursor">|</span>
+        </h2>
+        <p class="hero-summary reveal-up" style="--d:.45s">
+          Engineering the web with precision — built for speed, armored for threats,
+          designed to leave no trace.
         </p>
-    </div>
-</div>
+        <div class="hero-actions reveal-up" style="--d:.6s">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="#contact"  class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
 
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="https://images.unsplash.com/photo-1624953587687-daf255b6b80a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="GitHub Scraper">
-                </div>
-                <div class="project-content">
-                    <h3>GitHub Scraper</h3>
-                    <p>A web application that extracts and displays GitHub repository information, providing insights into user activity and project statistics. Built with Flask backend and modern frontend technologies.</p>
-                    <div class="project-tech">
-                        <span>Python</span>
-                        <span>Flask</span>
-                        <span>GitHub API</span>
-                        <span>Web Scraping</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github-scraper-nzsl.onrender.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="project-card upcoming-project">
-                <div class="project-image">
-                    <img src="https://i.pinimg.com/474x/89/be/a5/89bea5187756207c0839a4c241a67316.jpg" alt="Evolve X AI Platform">
-                    <div class="upcoming-badge">Coming Soon</div>
-                </div>
-                <div class="project-content">
-                    <h3>Evolve X <span class="ai-badge">AI</span></h3>
-                    <p>An innovative AI-powered business platform currently in development that helps entrepreneurs and businesses generate, refine, and implement ideas with integrated artificial intelligence tools.</p>
-                    <div class="project-tech">
-                        <span>AI Integration</span>
-                        <span>Business Tools</span>
-                        <span>Machine Learning</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="mailto:azmi.adan2032@gmail.com?subject=Collaboration on Evolve X"><i class="fas fa-handshake"></i> Collaborate</a>
-                        <a href="mailto:azmi.adan2032@gmail.com?subject=Interest in Evolve X"><i class="fas fa-envelope"></i> Get Updates</a>
-                    </div>
-                    <div class="development-notice">
-                        <i class="fas fa-code-branch"></i> Currently in active development - Open for partnerships and collaborations
-                    </div>
-                </div>
-            </div>
-            
-    
+      <div class="hero-visual reveal-up" style="--d:.75s">
+        <div class="photo-orbit">
+          <div class="ring ring1"></div>
+          <div class="ring ring2"></div>
+          <div class="ring ring3"></div>
+          <div class="photo-hex">
+            <img src="./pfp.png" alt="Azmi Adan"
+              onerror="this.style.background='linear-gradient(135deg,#1a0533,#3d1278)';this.removeAttribute('src')"/>
+          </div>
+          <div class="ob b1"><i class="fab fa-react"></i></div>
+          <div class="ob b2"><i class="fab fa-python"></i></div>
+          <div class="ob b3"><i class="fas fa-cloud"></i></div>
+          <div class="ob b4"><i class="fab fa-linux"></i></div>
+          <div class="ob b5"><i class="fab fa-js"></i></div>
+          <div class="ob b6"><i class="fab fa-git-alt"></i></div>
         </div>
-    </section>
-
-    <!-- Experience Section -->
-<section id="experience" class="section experience">
-    <div class="section-header">
-        <h2>My <span>Journey</span></h2>
-        <div class="header-line"></div>
+      </div>
     </div>
-    
-    
-    <div class="timeline">
-      <div class="timeline-item">
-    <div class="timeline-content">
-        <div class="timeline-date">Jun 2025</div>
-        <h3>AI Forensic Advisory Virtual Intern (Star Performer)</h3>
-        <h4>Excelerate</h4>
-        <ul>
-            <li>Completed a virtual internship focused on AI-driven forensic analysis and digital investigations</li>
-            <li>Worked on practical forensic case scenarios applying Python, data analysis, and problem-solving</li>
-            <li>Recognized as <strong>the Star Performer</strong> for outstanding performance in the cohort</li>
-        </ul>
-    </div>
-</div>
-<div class="timeline-item">
-  <div class="timeline-content">
-    <div class="timeline-date">Nov 2025</div>
-    <h3>Mobile App Development Intern (Star Performer)</h3>
-    <h4>Flutter Virtual Internship</h4>
-    <ul>
-      <li>Completed an intensive virtual internship focused on cross-platform mobile app development using Flutter and Dart</li>
-      <li>Built and customized mobile UI components using Flutter widgets and responsive layouts</li>
-      <li>Implemented app logic, navigation, and state handling using Dart</li>
-      <li>Recognized as a <strong>Star Performer</strong> for exceptional performance and project delivery</li>
-    </ul>
-  </div>
-</div>
 
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <div class="timeline-date">2025 Feb - Apr</div>
-                <h3>Cloud Support Engineer Intern</h3>
-                <h4>Angani</h4>
-                <ul>
-                    <li>Assisting in the management and support of cloud infrastructure</li>
-                    <li>Troubleshooting and resolving cloud-related issues</li>
-                    <li>Collaborating with the team to ensure optimal performance and security of cloud services</li>
-                </ul>
-            </div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <div class="timeline-date">2025 Apr- june</div>
-                <h3>Tulip Application Development Intern</h3>
-                <h4>Supported by Stanley Black and Decker</h4>
-                <ul>
-                    <li>Designed, customized, and presented an OEE (Overall Equipment Effectiveness) report</li>
-                    <li>Gained hands-on experience with manufacturing operations and application development</li>
-                    <li>Earned a Certificate and Badge upon successful completion</li>
-                </ul>
-            </div>
-        </div>
-        
-        
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <div class="timeline-date">Jul 2024 - Nov 2024</div>
-                <h3>Software Engineering Bootcamp</h3>
-                <h4>Moringa School, Nairobi</h4>
-                <ul>
-                    <li>Comprehensive full-stack web development training</li>
-                    <li>Covered front-end and back-end technologies</li>
-                    <li>Project management and collaboration</li>
-                </ul>
-            </div>
-        </div>
-        
-        
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <div class="timeline-date">Certifications</div>
-                <h3>Licenses & Certifications</h3>
-                <ul>
-                    <li><strong>Software Engineering</strong> - Moringa School (Nov 2024)</li>
-                    <li><strong>CodeMaster Solo Showdown Challenge</strong> - RIT Dubai (Apr 2025)</li>
-                    <li><strong>3CX Basic Certification</strong> - 3CX (Feb 2025)</li>
-                    <li><strong>Cybersecurity and Emerging Technologies</strong> - ICT Authority (May 2024)</li>
-                    <li><strong>CodeMaster Solo Showdown Challenge</strong> - Rochester Institute of Technology (Jan 2025)</li>
-                    <li><strong>Cybersecurity Fundamentals</strong> - IBM SkillsBuild</li>
-                    <li><strong>Basics of Python</strong> - UniAthena (Oct 2024)</li>
-                    <li><strong>Leading Yourself</strong> - LinkedIn Learning (Sep 2024)</li>
-                </ul>
-                <div class="skills-container" style="margin-top: 20px;">
-                    <div class="skills-category">
-                        <h4>Key Skills:</h4>
-                        <div class="skill-tags">
-                            <span>React.js</span>
-                            <span>Python</span>
-                            <span>Flask</span>
-                            <span>JavaScript</span>
-                            <span>HTML/CSS</span>
-                            <span>Tailwind CSS</span>
-                            <span>MySQL</span>
-                            <span>Git/GitHub</span>
-                            <span>Full-Stack Development</span>
-                            <span>Responsive Design</span>
-                            <span>Cybersecurity</span>
-                            <span>Cryptography</span>
-                            <span>Risk Management</span>
-                            <span>3CX</span>
-                            <span>Critical Thinking</span>
-                            <span>Leadership</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    <a href="#about" class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-wheel"><div class="scroll-dot"></div></div>
+    </a>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
-        <div class="section-header">
-            <h2>Get In <span>Touch</span></h2>
-            <div class="header-line"></div>
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <section id="about" class="section about-sec">
+    <div class="container">
+      <div class="sec-header">
+        <span class="sec-tag reveal-up">01 — About</span>
+        <h2 class="sec-title reveal-up">Who <em>Am I?</em></h2>
+        <div class="sec-rule reveal-up"></div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-photo-col reveal-left">
+          <div class="about-frame">
+            
+              
+            
+          </div>
+
+          <!-- ✦ UPGRADED CV CARD ✦ -->
+          <div class="cv-hologram-card" id="cvCard">
+            <div class="cv-holo-bg"></div>
+            <div class="cv-holo-grid"></div>
+            <div class="cv-holo-shine"></div>
+            <div class="cv-card-inner">
+              <div class="cv-card-header">
+                <div class="cv-card-avatar">
+                  <img src="./pfp.png" alt="AA"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                  <div class="cv-avatar-fallback">AA</div>
+                </div>
+                <div class="cv-card-title">
+                  <h3>Azmi Adan</h3>
+                  <p>Full-Stack · Cloud · Security</p>
+                </div>
+                <div class="cv-card-badge">
+                  <span class="cv-available-dot"></span>
+                  <span>Open to Work</span>
+                </div>
+              </div>
+              <div class="cv-card-chips">
+                <span class="cv-chip"><i class="fab fa-react"></i> React</span>
+                <span class="cv-chip"><i class="fab fa-python"></i> Python</span>
+                <span class="cv-chip"><i class="fas fa-cloud"></i> Cloud</span>
+                <span class="cv-chip"><i class="fas fa-shield-alt"></i> CySec</span>
+              </div>
+              <div class="cv-card-meta">
+                <div class="cv-meta-row"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</div>
+                <div class="cv-meta-row"><i class="fas fa-certificate"></i> 8+ Certifications</div>
+                <div class="cv-meta-row"><i class="fas fa-briefcase"></i> 4+ Internships</div>
+              </div>
+              <a href="Azmi Adan final cv_1.pdf" target="_blank" class="cv-download-btn">
+                <span class="cv-btn-glow"></span>
+                <i class="fas fa-file-arrow-down"></i>
+                <span>Download Full CV</span>
+                <span class="cv-arrow">→</span>
+              </a>
+            </div>
+            <div class="cv-corner-decor tl"></div>
+            <div class="cv-corner-decor tr"></div>
+            <div class="cv-corner-decor bl"></div>
+            <div class="cv-corner-decor br"></div>
+          </div>
+
+          <div class="soc-row">
+            <a href="https://www.linkedin.com/in/azmi-adan-harar-47042332b/" target="_blank" class="soc"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/azmi-adan" target="_blank" class="soc"><i class="fab fa-github"></i></a>
+            <a href="mailto:azmi.adan2032@gmail.com" class="soc"><i class="fas fa-envelope"></i></a>
+          </div>
         </div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contact Information</h3>
-                <div class="info-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h4>Email</h4>
-                        <p>azmi.adan2032@gmail.com</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h4>Phone</h4>
-                        <p>+254 759 471 584</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h4>Location</h4>
-                        <p>Nairobi, Kenya</p>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/azmi-adan-harar-47042332b/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/azmi-adan" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="mailto:azmi.adan2032@gmail.com"><i class="fas fa-envelope"></i></a>
-                </div>
-            </div>
-            <div class="tech-explorer" style="
-            background: linear-gradient(135deg, #0a0e23 0%, #1a2138 100%);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(58, 134, 255, 0.3);
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            border: 1px solid rgba(58, 134, 255, 0.2);
-          ">
-            <h3 style="
-              font-size: 1.8rem;
-              background: linear-gradient(135deg, #e2f1fd 0%, #8b9dc7 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              margin-bottom: 1rem;
-              font-weight: 600;
-            ">My Tech Universe</h3>
-            
-            <p style="
-              color: #8b9dc7;
-              font-size: 1.1rem;
-              margin-bottom: 2rem;
-            ">Hover over the tech planets to see my experience level</p>
-            
-            <div class="tech-orbit" style="
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
-              gap: 1.5rem;
-              padding: 1rem;
-            ">
-              <!-- JavaScript -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('JavaScript', '85%', 'ES6+, DOM Manipulation, Async Programming')">
-                <i class="fab fa-js" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- Python -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Python', '80%', 'Flask, Automation, Data Processing, APIs')">
-                <i class="fab fa-python" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- React -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('React', '80%', 'Frontend Development, Hooks, UI Components')">
-                <i class="fab fa-react" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- Flutter -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Flutter', '75%', 'Mobile App Development, Cross-Platform Apps')">
-                <i class="fas fa-mobile-alt" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- Dart -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Dart', '70%', 'Flutter Development, OOP, State Management')">
-                <i class="fas fa-code" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- HTML/CSS -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('HTML/CSS', '90%', 'Responsive Design, Flexbox, Grid, Animations')">
-                <i class="fab fa-html5" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- Tailwind CSS -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Tailwind CSS', '85%', 'Utility-First CSS, Rapid UI Development')">
-                <i class="fas fa-paint-brush" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- Flask -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Flask', '75%', 'Backend Development, RESTful APIs, Web Apps')">
-                <i class="fas fa-server" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- PostgreSQL -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('PostgreSQL', '75%', 'Relational Databases, SQL Queries, Data Modeling')">
-                <i class="fas fa-database" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- MySQL -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('MySQL', '70%', 'Database Management, Joins, Transactions')">
-                <i class="fas fa-database" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- Git/GitHub -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Git/GitHub', '85%', 'Version Control, Collaboration, CI/CD')">
-                <i class="fab fa-git-alt" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- Linux -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Linux', '75%', 'System Administration, Cloud Deployments, CLI')">
-                <i class="fab fa-linux" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-              
-              <!-- Cloud -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Cloud', '70%', 'Infrastructure, Deployment, Support Engineering')">
-                <i class="fas fa-cloud" style="font-size: 2.2rem; color: #4cc9f0;"></i>
-              </div>
-              
-              <!-- Data Visualization -->
-              <div class="tech-planet" style="
-                width: 75px;
-                height: 75px;
-                background: linear-gradient(145deg, rgba(58, 134, 255, 0.2), rgba(76, 201, 240, 0.2));
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 1px solid rgba(58, 134, 255, 0.3);
-              " onmouseover="showTechInfo('Data Visualization', '80%', 'Charts, Graphs, Analytics Dashboards')">
-                <i class="fas fa-chart-line" style="font-size: 2.2rem; color: #3a86ff;"></i>
-              </div>
-            </div>
-            
-            <div id="tech-info" style="
-              margin-top: 2rem;
-              padding: 1.5rem;
-              background: rgba(10, 14, 35, 0.6);
-              border-radius: 12px;
-              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-              min-height: 120px;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              transition: all 0.3s ease;
-              border: 1px solid rgba(58, 134, 255, 0.2);
-            ">
-              <h4 style="font-size: 1.3rem; color: #e2f1fd; margin-bottom: 0.5rem;">Hover Over a Technology</h4>
-              <p style="color: #8b9dc7; margin-bottom: 0.5rem;">See my experience level and skills</p>
-              <div class="skill-bar" style="
-                height: 8px;
-                background: rgba(139, 157, 199, 0.2);
-                border-radius: 4px;
-                margin: 1rem 0;
-                overflow: hidden;
-              ">
-                <div id="skill-level" style="
-                  height: 100%;
-                  width: 0%;
-                  background: linear-gradient(90deg, #3a86ff, #4cc9f0);
-                  border-radius: 4px;
-                  transition: width 0.5s ease;
-                  box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
-                "></div>
-              </div>
-              <p id="skill-desc" style="color: #8b9dc7; font-size: 0.95rem;"></p>
+
+        <div class="about-text-col reveal-right">
+          <h3 class="about-sub">Full-Stack Developer &amp; Cloud Engineer</h3>
+          <p class="about-p">Focused on building streamlined, scalable solutions where precision meets performance. A blend of front-end finesse and back-end structure with an emphasis on securing every layer.</p>
+          <p class="about-p">Currently refining skills in cloud infrastructure and operations — navigating the intersection of innovation and reliability in dynamic environments.</p>
+
+          <div class="about-stats">
+            <div class="astat"><span class="astat-n">5+</span><span class="astat-l">Projects</span></div>
+            <div class="astat"><span class="astat-n">4+</span><span class="astat-l">Internships</span></div>
+            <div class="astat"><span class="astat-n">8+</span><span class="astat-l">Certifications</span></div>
+          </div>
+
+          <div class="about-details">
+            <div class="ad-row"><span class="ad-label">Name</span><span class="ad-val">Azmi Adan</span></div>
+            <div class="ad-row"><span class="ad-label">Email</span><span class="ad-val">azmi.adan2032@gmail.com</span></div>
+            <div class="ad-row"><span class="ad-label">Location</span><span class="ad-val">Nairobi, Kenya</span></div>
+            <div class="ad-row">
+              <span class="ad-label">Status</span>
+              <span class="ad-val available"><span class="pdot"></span>Available for hire</span>
             </div>
           </div>
-          
-          <script>
-          function showTechInfo(techName, level, description) {
-            document.getElementById('tech-info').innerHTML = `
-              <h4 style="font-size: 1.3rem; color: #e2f1fd; margin-bottom: 0.5rem;">${techName}</h4>
-              <p style="color: #8b9dc7; margin-bottom: 0.5rem;">${level} proficiency</p>
-              <div class="skill-bar" style="
-                height: 8px;
-                background: rgba(139, 157, 199, 0.2);
-                border-radius: 4px;
-                margin: 1rem 0;
-                overflow: hidden;
-              ">
-                <div id="skill-level" style="
-                  height: 100%;
-                  width: ${level};
-                  background: linear-gradient(90deg, #3a86ff, #4cc9f0);
-                  border-radius: 4px;
-                  transition: width 0.5s ease;
-                  box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
-                "></div>
-              </div>
-              <p style="color: #8b9dc7; font-size: 0.95rem;">${description}</p>
-            `;
-            
-            // Add pulse animation to the hovered planet
-            event.currentTarget.style.transform = 'scale(1.15)';
-            event.currentTarget.style.boxShadow = '0 8px 25px rgba(58, 134, 255, 0.6)';
-            setTimeout(() => {
-              event.currentTarget.style.transform = 'scale(1)';
-              event.currentTarget.style.boxShadow = '0 4px 15px rgba(58, 134, 255, 0.4)';
-            }, 300);
-          }
-          </script>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <a href="#" class="logo">
-                    <span>A</span>zmi <span>A</span>dan
-                </a>
-                <p>Full-Stack Developer & Cloud Engineer</p>
-            </div>
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#experience">Experience</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>Contact Info</h4>
-                <ul>
-                    <li><i class="fas fa-envelope"></i> azmi.adan2032@gmail.com</li>
-                    <li><i class="fas fa-phone"></i> +254 759 471 584</li>
-                    <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
-                    
+  <!-- ═══════════════ SKILLS ═══════════════ -->
+  <section id="skills" class="section skills-sec">
+    <div class="container">
+      <div class="sec-header">
+        <span class="sec-tag reveal-up">02 — Skills</span>
+        <h2 class="sec-title reveal-up">My <em>Expertise</em></h2>
+        <div class="sec-rule reveal-up"></div>
+      </div>
 
-                </ul>
-            </div>
+      <div class="skills-grid">
+        <div class="sk-card reveal-up" style="--d:0s">
+          <div class="sk-icon"><i class="fas fa-code"></i></div>
+          <h3 class="sk-title">Languages</h3>
+          <div class="sk-bars">
+            <div class="sb"><div class="sb-meta"><span>JavaScript</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Python</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>HTML / CSS</span><span>90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Dart</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Azmi Adan. All Rights Reserved.</p>
+        <div class="sk-card reveal-up" style="--d:.1s">
+          <div class="sk-icon"><i class="fas fa-layer-group"></i></div>
+          <h3 class="sk-title">Frameworks</h3>
+          <div class="sk-bars">
+            <div class="sb"><div class="sb-meta"><span>React.js</span><span>80%</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Tailwind CSS</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Flask</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Flutter</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+          </div>
         </div>
-    </footer>
+        <div class="sk-card reveal-up" style="--d:.2s">
+          <div class="sk-icon"><i class="fas fa-server"></i></div>
+          <h3 class="sk-title">Infra &amp; Tools</h3>
+          <div class="sk-bars">
+            <div class="sb"><div class="sb-meta"><span>PostgreSQL</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>MySQL</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Git / GitHub</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+            <div class="sb"><div class="sb-meta"><span>Linux Admin</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- ═══════════════ PROJECTS ═══════════════ -->
+  <section id="projects" class="section projects-sec">
+    <div class="container">
+      <div class="sec-header">
+        <span class="sec-tag reveal-up">03 — Projects</span>
+        <h2 class="sec-title reveal-up">My <em>Work</em></h2>
+        <div class="sec-rule reveal-up"></div>
+      </div>
+      <div class="projects-grid">
+        <div class="pj-card reveal-up" style="--d:0s">
+          <div class="pj-img"><img src="https://images.unsplash.com/photo-1501139083538-0139583c060f?w=600&q=80" alt="Age Calculator"/><div class="pj-overlay"></div><span class="pj-num">01</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">Age Calculator</h3>
+            <p class="pj-desc">Responsive calculator delivering exact age in years, months and days. Clean interactive UX with vanilla web tech.</p>
+            <div class="pj-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            <a href="https://azmi-adan.github.io/CodeAlpha_AgeCalculator/#" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="pj-card reveal-up" style="--d:.1s">
+          <div class="pj-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Smart Stats"/><div class="pj-overlay"></div><span class="pj-num">02</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">Smart Stats</h3>
+            <p class="pj-desc">AI-powered analytics platform — chart recommendations, interactive dashboards, real-time data visualization.</p>
+            <div class="pj-tags"><span>React</span><span>Node.js</span><span>Chart.js</span><span>AI/ML</span></div>
+            <a href="https://smart-stats.netlify.app/" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="pj-card reveal-up" style="--d:.2s">
+          <div class="pj-img"><img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" alt="Crypto Chain"/><div class="pj-overlay"></div><span class="pj-num">03</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">Crypto Chain</h3>
+            <p class="pj-desc">Blockchain simulation covering transactions, mining and chain validation — core cryptographic concepts made tangible.</p>
+            <div class="pj-tags"><span>JavaScript</span><span>Flask</span><span>Cryptography</span></div>
+            <a href="https://crypto-coin-2c0k.onrender.com" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="pj-card reveal-up" style="--d:.3s">
+          <div class="pj-img"><img src="https://i.pinimg.com/474x/50/1d/6a/501d6a98ba8f9750288881dfe4d03eea.jpg" alt="Email Sender"/><div class="pj-overlay"></div><span class="pj-num">04</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">Automated Email Sender</h3>
+            <p class="pj-desc">Web-based email automation tool with Flask backend and Flask-Mail for efficient bulk email handling.</p>
+            <div class="pj-tags"><span>Flask</span><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            <span class="pj-offline"><i class="fas fa-circle-exclamation"></i> Demo offline — SMTP fix in progress</span>
+          </div>
+        </div>
+        <div class="pj-card reveal-up" style="--d:.4s">
+          <div class="pj-img"><img src="https://images.unsplash.com/photo-1624953587687-daf255b6b80a?w=600&q=80" alt="GitHub Scraper"/><div class="pj-overlay"></div><span class="pj-num">05</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">GitHub Scraper</h3>
+            <p class="pj-desc">Surfaces GitHub repo intelligence — user activity, project stats, Flask backend with modern frontend.</p>
+            <div class="pj-tags"><span>Python</span><span>Flask</span><span>GitHub API</span></div>
+            <a href="https://github-scraper-nzsl.onrender.com/" target="_blank" class="pj-link">Live Demo <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="pj-card pj-upcoming reveal-up" style="--d:.5s">
+          <div class="pj-img"><img src="https://i.pinimg.com/474x/89/be/a5/89bea5187756207c0839a4c241a67316.jpg" alt="Evolve X"/><div class="pj-overlay"></div><span class="pj-num">06</span><span class="coming-soon">Coming Soon</span></div>
+          <div class="pj-body">
+            <h3 class="pj-title">Evolve X <span class="ai-chip">AI</span></h3>
+            <p class="pj-desc">AI-powered business platform helping entrepreneurs generate, refine and implement ideas with intelligent tools.</p>
+            <div class="pj-tags"><span>AI Integration</span><span>ML</span><span>Business Tools</span></div>
+            <a href="mailto:azmi.adan2032@gmail.com?subject=Collaboration on Evolve X" class="pj-link">Collaborate <i class="fas fa-handshake"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ EXPERIENCE ═══════════════ -->
+  <section id="experience" class="section exp-sec">
+    <div class="container">
+      <div class="sec-header">
+        <span class="sec-tag reveal-up">04 — Journey</span>
+        <h2 class="sec-title reveal-up">My <em>Experience</em></h2>
+        <div class="sec-rule reveal-up"></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-spine"></div>
+        <div class="tl-item reveal-up" style="--d:0s">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-date">Jun 2025</span>
+            <h3 class="tl-role">AI Forensic Advisory Intern <span class="star-badge">★ Star</span></h3>
+            <h4 class="tl-org">Excelerate</h4>
+            <ul class="tl-list">
+              <li>AI-driven forensic analysis and digital investigations</li>
+              <li>Python-based forensic case scenarios and data analysis</li>
+              <li>Recognized as <strong>Star Performer</strong> across the cohort</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--d:.1s">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-date">Nov 2025</span>
+            <h3 class="tl-role">Mobile App Dev Intern <span class="star-badge">★ Star</span></h3>
+            <h4 class="tl-org">Flutter Virtual Internship</h4>
+            <ul class="tl-list">
+              <li>Cross-platform mobile development with Flutter &amp; Dart</li>
+              <li>Custom widgets, navigation flows, state management</li>
+              <li>Recognized as <strong>Star Performer</strong> for exceptional delivery</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--d:.2s">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-date">Feb – Apr 2025</span>
+            <h3 class="tl-role">Cloud Support Engineer Intern</h3>
+            <h4 class="tl-org">Angani</h4>
+            <ul class="tl-list">
+              <li>Cloud infrastructure management and support</li>
+              <li>Incident troubleshooting and resolution</li>
+              <li>Performance optimisation and cloud security</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--d:.3s">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-date">Apr – Jun 2025</span>
+            <h3 class="tl-role">Tulip Application Dev Intern</h3>
+            <h4 class="tl-org">Stanley Black &amp; Decker</h4>
+            <ul class="tl-list">
+              <li>Designed and presented OEE report</li>
+              <li>Hands-on manufacturing operations and app development</li>
+              <li>Earned Certificate and Badge on completion</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-item reveal-up" style="--d:.4s">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <span class="tl-date">Jul – Nov 2024</span>
+            <h3 class="tl-role">Software Engineering Bootcamp</h3>
+            <h4 class="tl-org">Moringa School, Nairobi</h4>
+            <ul class="tl-list">
+              <li>Comprehensive full-stack web development training</li>
+              <li>Front-end, back-end and database technologies</li>
+              <li>Agile project management and team collaboration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="certs-block">
+        <div class="sec-header" style="margin-top:80px">
+          <span class="sec-tag reveal-up">Credentials</span>
+          <h2 class="sec-title reveal-up" style="font-size:clamp(1.6rem,3vw,2.2rem)">Licenses &amp; <em>Certifications</em></h2>
+          <div class="sec-rule reveal-up"></div>
+        </div>
+        <div class="certs-grid reveal-up">
+          <div class="cert-card"><i class="fas fa-certificate"></i><div><strong>Software Engineering</strong><span>Moringa School — Nov 2024</span></div></div>
+          <div class="cert-card"><i class="fas fa-trophy"></i><div><strong>CodeMaster Solo Showdown</strong><span>RIT Dubai — Apr 2025</span></div></div>
+          <div class="cert-card"><i class="fas fa-phone-alt"></i><div><strong>3CX Basic Certification</strong><span>3CX — Feb 2025</span></div></div>
+          <div class="cert-card"><i class="fas fa-shield-alt"></i><div><strong>Cybersecurity &amp; Emerging Tech</strong><span>ICT Authority — May 2024</span></div></div>
+          <div class="cert-card"><i class="fas fa-medal"></i><div><strong>CodeMaster Solo Showdown</strong><span>RIT — Jan 2025</span></div></div>
+          <div class="cert-card"><i class="fas fa-lock"></i><div><strong>Cybersecurity Fundamentals</strong><span>IBM SkillsBuild</span></div></div>
+          <div class="cert-card"><i class="fab fa-python"></i><div><strong>Basics of Python</strong><span>UniAthena — Oct 2024</span></div></div>
+          <div class="cert-card"><i class="fas fa-user-tie"></i><div><strong>Leading Yourself</strong><span>LinkedIn Learning — Sep 2024</span></div></div>
+        </div>
+        <div class="skill-tags reveal-up">
+          <span>React.js</span><span>Python</span><span>Flask</span><span>JavaScript</span>
+          <span>HTML/CSS</span><span>Tailwind</span><span>MySQL</span><span>Git/GitHub</span>
+          <span>Full-Stack</span><span>Responsive Design</span><span>Cybersecurity</span>
+          <span>Cryptography</span><span>Risk Management</span><span>3CX</span>
+          <span>Critical Thinking</span><span>Leadership</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact" class="section contact-sec">
+    <div class="container">
+      <div class="sec-header">
+        <span class="sec-tag reveal-up">05 — Contact</span>
+        <h2 class="sec-title reveal-up">Get In <em>Touch</em></h2>
+        <div class="sec-rule reveal-up"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal-left">
+          <h3 class="contact-sub">Let's Build Something Together</h3>
+          <p class="contact-p">Available for freelance work, full-time roles, and exciting collaborations. Don't hesitate to reach out.</p>
+          <div class="contact-items">
+            <div class="ci"><div class="ci-icon"><i class="fas fa-envelope"></i></div><div><h4>Email</h4><p>azmi.adan2032@gmail.com</p></div></div>
+            <div class="ci"><div class="ci-icon"><i class="fas fa-phone"></i></div><div><h4>Phone</h4><p>+254 759 471 584</p></div></div>
+            <div class="ci"><div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div><div><h4>Location</h4><p>Nairobi, Kenya</p></div></div>
+          </div>
+          <div class="soc-row">
+            <a href="https://www.linkedin.com/in/azmi-adan-harar-47042332b/" target="_blank" class="soc"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/azmi-adan" target="_blank" class="soc"><i class="fab fa-github"></i></a>
+            <a href="mailto:azmi.adan2032@gmail.com" class="soc"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="tech-universe reveal-right">
+          <h3 class="tu-title">Tech Universe</h3>
+          <p class="tu-sub">Hover over a planet to explore proficiency</p>
+          <div class="tu-planets">
+            <div class="tp" onmouseenter="showTech('JavaScript','85','ES6+, DOM, Async Programming, APIs')"><i class="fab fa-js"></i></div>
+            <div class="tp" onmouseenter="showTech('Python','80','Flask, Automation, Data Processing')"><i class="fab fa-python"></i></div>
+            <div class="tp" onmouseenter="showTech('React.js','80','Hooks, Components, State Management')"><i class="fab fa-react"></i></div>
+            <div class="tp" onmouseenter="showTech('Flutter','75','Cross-Platform Mobile, Custom Widgets')"><i class="fas fa-mobile-alt"></i></div>
+            <div class="tp" onmouseenter="showTech('HTML/CSS','90','Responsive Design, Flexbox, Grid, Animations')"><i class="fab fa-html5"></i></div>
+            <div class="tp" onmouseenter="showTech('Tailwind','85','Utility-First CSS, Rapid UI Dev')"><i class="fas fa-paint-brush"></i></div>
+            <div class="tp" onmouseenter="showTech('Flask','75','Backend APIs, RESTful Services, Auth')"><i class="fas fa-server"></i></div>
+            <div class="tp" onmouseenter="showTech('PostgreSQL','75','Relational DBs, SQL, Data Modeling')"><i class="fas fa-database"></i></div>
+            <div class="tp" onmouseenter="showTech('Git/GitHub','85','Version Control, CI/CD, Collaboration')"><i class="fab fa-git-alt"></i></div>
+            <div class="tp" onmouseenter="showTech('Linux','75','System Admin, Cloud, CLI')"><i class="fab fa-linux"></i></div>
+            <div class="tp" onmouseenter="showTech('Cloud','70','Infrastructure, Deployment, Support')"><i class="fas fa-cloud"></i></div>
+            <div class="tp" onmouseenter="showTech('Cybersecurity','72','Forensics, Risk Management')"><i class="fas fa-shield-alt"></i></div>
+            <div class="tp" onmouseenter="showTech('Data Viz','80','Charts, Dashboards, Analytics')"><i class="fas fa-chart-line"></i></div>
+            <div class="tp" onmouseenter="showTech('Dart','70','OOP, State, Flutter Dev')"><i class="fas fa-code"></i></div>
+          </div>
+          <div class="tu-panel" id="tu-panel">
+            <div class="tup-name" id="tup-name">Hover a planet</div>
+            <div class="tup-pct"  id="tup-pct">—</div>
+            <div class="tup-track"><div class="tup-fill" id="tup-fill" style="width:0%"></div></div>
+            <div class="tup-desc" id="tup-desc">Select a technology above to inspect</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer">
+    <div class="footer-orb"></div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="footer-logo"><span>A</span>zmi <span>A</span>dan</a>
+          <p>Full-Stack Developer &amp; Cloud Engineer. Engineering the web with precision, built for scale.</p>
+          <div class="soc-row" style="margin-top:20px">
+            <a href="https://www.linkedin.com/in/azmi-adan-harar-47042332b/" target="_blank" class="soc"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/azmi-adan" target="_blank" class="soc"><i class="fab fa-github"></i></a>
+            <a href="mailto:azmi.adan2032@gmail.com" class="soc"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> azmi.adan2032@gmail.com</li>
+            <li><i class="fas fa-phone"></i> +254 759 471 584</li>
+            <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Azmi Adan. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
